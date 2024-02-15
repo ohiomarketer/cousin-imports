@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 import products from '../assets/static/js/products'
 import specialbanner from '../assets/static/special-banner.png'
 import { useNavigate } from 'react-router-dom';
+import { useShopContext } from '../context/shopContext';
 
 export const Special = () => {
     const [specials, setSpecials] = useState([]);
      const navigate = useNavigate();
+     const { addToWishList } = useShopContext();
 
     useEffect(() => {
         setSpecials(products.slice(0, 4));
@@ -18,7 +20,7 @@ export const Special = () => {
           <div className="special-banner" style={{backgroundImage: `url(${specialbanner})`}}>
             <h2 className="h3 banner-title">New Trend Edition</h2>
 
-            <a href="#" className="btn btn-link">
+            <a href="#products" className="btn btn-link">
               <span>Explore All</span>
 
               <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
@@ -58,7 +60,9 @@ export const Special = () => {
                                         </li>
 
                                         <li className="card-action-item">
-                                            <button className="card-action-btn" aria-labelledby={`card-label-2-${index}`}>
+                                            <button className="card-action-btn" aria-labelledby={`card-label-2-${index}`}
+                                                onClick={() => addToWishList(product)}
+                                            >
                                                 <ion-icon name="heart-outline"></ion-icon>
                                             </button>
 

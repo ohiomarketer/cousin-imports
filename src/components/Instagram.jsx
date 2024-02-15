@@ -22,7 +22,7 @@ export const Instagram = () => {
                     <img src={product.image} width="100" height="100" loading="lazy" alt="Instagram post"
                     className="insta-post-banner image-contain" />
 
-                    <a href="#" className="insta-post-link">
+                    <a href="https://instagram.com/cousinimports_/" target='_blank' className="insta-post-link">
                         <ion-icon name="logo-instagram"></ion-icon>
                     </a>
                 </li>

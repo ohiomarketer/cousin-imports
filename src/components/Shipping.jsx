@@ -36,7 +36,7 @@ export const Shipping = () => {
   return (
 
     cartItems.length === 0 ? (
-        <NoProducts />
+        <NoProducts text='tu carrito'/>
     ) : (
     <section className='shipping'>
         <div className="title">

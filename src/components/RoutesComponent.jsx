@@ -10,6 +10,7 @@ import { SpecialButton } from './SpecialButton'
 import { Cart } from './Cart'
 import { Shipping } from './Shipping'
 import { Payment } from './Payment'
+import { WishListSummary } from './WishListSummary'
 
 export const RoutesComponent = () => {
   return (
@@ -23,6 +24,7 @@ export const RoutesComponent = () => {
             <Route path='/cart' element={<Cart />} />
             <Route path='/shipping' element={<Shipping />} />
             <Route path='/payment' element={<Payment />} />
+            <Route path='/wishlist' element={<WishListSummary />} />
         </Routes>
         <Footer />
         <SpecialButton />

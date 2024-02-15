@@ -1,5 +1,6 @@
 import React from 'react'
 import logo from '../assets/static/logof.png'
+import { Link } from 'react-router-dom'
 
 export const Footer = () => {
   return (
@@ -34,8 +35,8 @@ export const Footer = () => {
             </li>
 
             <li>
-              <a href="#" className="social-link">
-                <ion-icon name="logo-linkedin"></ion-icon>
+              <a href="https://instagram.com/cousinimports_/" target='_blank' className="social-link">
+                <ion-icon name="logo-instagram"></ion-icon>
               </a>
             </li>
 
@@ -65,15 +66,15 @@ export const Footer = () => {
               <a href="tel:+557343673257" className="footer-link">
                 <ion-icon name="call"></ion-icon>
 
-                <span className="footer-link-text">+557343673257</span>
+                <span className="footer-link-text">+(59) 11-6630-1935</span>
               </a>
             </li>
 
             <li>
-              <a href="mailto:footcap@help.com" className="footer-link">
+              <a href="mailto:importscousin@gmail.com" className="footer-link">
                 <ion-icon name="mail"></ion-icon>
 
-                <span className="footer-link-text">cousinimports@help.com</span>
+                <span className="footer-link-text">importscousin@gmail.com</span>
               </a>
             </li>
 
@@ -86,39 +87,31 @@ export const Footer = () => {
             </li>
 
             <li>
-              <a href="#" className="footer-link">
-                <ion-icon name="chevron-forward-outline"></ion-icon>
-
-                <span className="footer-link-text">Mi Cuenta</span>
-              </a>
-            </li>
-
-            <li>
-              <a href="#" className="footer-link">
+              <Link to='/cart' className="footer-link">
                 <ion-icon name="chevron-forward-outline"></ion-icon>
 
                 <span className="footer-link-text">Ver Carrito</span>
-              </a>
+              </Link>
             </li>
 
             <li>
-              <a href="#" className="footer-link">
+              <Link to="/wishlist" className="footer-link">
                 <ion-icon name="chevron-forward-outline"></ion-icon>
 
                 <span className="footer-link-text">Deseados</span>
-              </a>
+              </Link>
             </li>
 
             <li>
-              <a href="#" className="footer-link">
+              <Link to="/products" className="footer-link">
                 <ion-icon name="chevron-forward-outline"></ion-icon>
 
-                <span className="footer-link-text">Comparar</span>
-              </a>
+                <span className="footer-link-text">Comprar</span>
+              </Link>
             </li>
 
             <li>
-              <a href="#" className="footer-link">
+              <a href="#products" className="footer-link">
                 <ion-icon name="chevron-forward-outline"></ion-icon>
 
                 <span className="footer-link-text">Nuevos productos</span>

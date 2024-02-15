@@ -9,6 +9,7 @@ export const Banner = () => {
     <>
     <section className="section hero" style={{
       background: 'url(' + herobanner + ')',
+      backgroundSize: 'cover',
     }}> 
         <div className="container">
 
@@ -22,7 +23,13 @@ export const Banner = () => {
           </p>
 
           <button className="btn btn-primary">
-            <span>Comprar ya</span>
+            <a href='#products'
+              style={{
+                color: 'white',
+                textDecoration: 'none'
+              
+              }}
+            >Comprar ya</a>
 
             <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
           </button>
@@ -40,20 +47,20 @@ const Collections = () => {
 
     const collectionList = [
         {
-            title: 'Men Collection',
-            link: '#',
+            title: 'Oversize Collection',
+            link: '#products',
             image: men,
             color: '#110d18'
         },
         {
-            title: 'Women Collection',
-            link: '#',
+            title: 'Indie Collection',
+            link: '#products',
             image: women,
             color: '#180d0d'
         },
         {
-            title: 'Kids Collection',
-            link: '#',
+            title: 'New Collection',
+            link: '#products',
             image: kids,
             color: '#111b0e'
         }

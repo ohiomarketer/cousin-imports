@@ -96,7 +96,7 @@ export const Cart = () => {
 
     return (
             cartItems.length === 0 ? (
-                <NoProducts />
+                <NoProducts text='tu carrito' />
             ) : (
                 <form>
             <section className="cart-section">

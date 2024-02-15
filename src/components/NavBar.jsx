@@ -94,15 +94,15 @@ export const NavBar = () => {
             </li>
 
             <li className="navbar-item" onClick={() => handleNavClose()}>
-              <Link to="/" className="navbar-link">
+              <a href="https://instagram.com/cousinimports_/" target="_blank" className="navbar-link">
                 Nosotros
-              </Link>
+              </a>
             </li>
 
             <li className="navbar-item" onClick={() => handleNavClose()}>
-              <Link to="/" className="navbar-link">
+              <a href='https://instagram.com/cousinimports_/' target="_blank" className="navbar-link">
                 Instagram
-              </Link>
+              </a>
             </li>
 
             <li className="navbar-item" onClick={() => handleNavClose()}>
@@ -114,23 +114,7 @@ export const NavBar = () => {
 
           <ul className="nav-action-list">
             <li>
-              <button className="nav-action-btn">
-                <ion-icon name="search-outline" aria-hidden="true"></ion-icon>
-
-                <span className="nav-action-text">Buscar</span>
-              </button>
-            </li>
-
-            <li>
-              <a href="#" className="nav-action-btn">
-                <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
-
-                <span className="nav-action-text">Login / Register</span>
-              </a>
-            </li>
-
-            <li>
-              <button className="nav-action-btn">
+              <button className="nav-action-btn" onClick={() => handleNavClose()}>
                 <ion-icon name="heart-outline" aria-hidden="true"></ion-icon>
 
                 <span className="nav-action-text">Desados</span>
@@ -142,7 +126,9 @@ export const NavBar = () => {
             </li>
 
             <li>
-              <button className="nav-action-btn" onClick={() => navigate('/cart')}>
+              <button className="nav-action-btn" onClick={() => {
+                handleNavClose()
+                navigate('/cart')}}>
                 <ion-icon name="bag-outline" aria-hidden="true"></ion-icon>
 
                 <data className="nav-action-text" value="318.00">

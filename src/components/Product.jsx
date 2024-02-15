@@ -9,7 +9,7 @@ export const Product = () => {
   const [sizes, setSizes] = useState([]);
   const { id } = useParams();
   const productRef = useRef();
-  const { cartItems, addToCart } = useShopContext(); // Obtenemos las funciones del contexto
+  const { cartItems, addToCart, addToWishList } = useShopContext(); // Obtenemos las funciones del contexto
 
   const navigate = useNavigate();
 
@@ -78,7 +78,7 @@ export const Product = () => {
                   <button
                     className="card-action-btn"
                     aria-labelledby={`card-label-2-${""}`}
-                    onClick={() => addToWishlist(product)} // Agregar producto a la lista de deseos
+                    onClick={() => addToWishList(product)} // Agregar producto a la lista de deseos
                   >
                     <ion-icon name="heart-outline"></ion-icon>
                   </button>

@@ -6,6 +6,7 @@ import { Special } from './Special'
 import { Instagram } from './Instagram'
 
 export const Home = () => {
+  
   return (
     <main>
         <Banner />

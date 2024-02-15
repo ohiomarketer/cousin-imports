@@ -1,19 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import { useShopContext } from "../context/shopContext";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { NoProducts } from './NoProducts';
 
-export const Summary = () => {
+export const WishListSummary = () => {
   const [products, setProducts] = useState([]);
   const [price, setPrice] = useState(0);
   
-  const { getTotalPrice, getTotalItems, wishList, cartItems, removeFromCart } = useShopContext();
+  const { getTotalPrice, getTotalItems, wishList, cartItems, removeFromWishList } = useShopContext();
 
   useEffect(() => {
-    setProducts(cartItems);
+    setProducts(wishList);
     setPrice(getTotalPrice());
   }, [getTotalItems]);
 
   return (
+    wishList.length === 0 ? (
+        <NoProducts text='lista de deseados' />
+    ) : (
     <>
       <div className="order-summary">
         <div className="product">
@@ -32,8 +37,8 @@ export const Summary = () => {
                   <ion-icon name="close-outline"
                     style={{ cursor: 'pointer' }}
                     onClick={() => {
-                      removeFromCart(product.id)
-                      toast.error(`${product.title} eliminada del carrito`)
+                      removeFromWishList(product.id)
+                      toast.error(`${product.title} eliminada de deseados`)
                     }
                     }
                   ></ion-icon>
@@ -49,6 +54,6 @@ export const Summary = () => {
         <p>${price}</p>
       </div>
     </>
-  );
+  ));
 }
 

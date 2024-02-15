@@ -34,7 +34,7 @@ export const Payment = () => {
     return (
 
         cartItems.length === 0 ? (
-            <NoProducts />
+            <NoProducts text='tu carrito'/>
         ) : ( 
         <section className='payment'>
             <div className='title'>
@@ -109,10 +109,10 @@ export const Payment = () => {
                             denyButtonAriaLabel: 'Enviar por Email',
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                window.open('https://www.instagram.com', '_blank');
+                                window.open('https://www.instagram.com/cousinimports_/', '_blank');
                                 Swal.fire('Redirigido a Instagram', '', 'info');
                             } else if (result.isDenied) {
-                                window.open('mailto: phonesmarketer@gmail.com', '_blank');
+                                window.open('mailto: importscousin@gmail.com', '_blank');
                                 Swal.fire('Redirigido a Email', '', 'info');
                             }
                         });
