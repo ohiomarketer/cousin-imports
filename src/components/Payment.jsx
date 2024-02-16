@@ -88,12 +88,12 @@ export const Payment = () => {
                     top: "10px",
                     right: "10px",
                     cursor: 'pointer'
-                }} onClick={() => copyCBUToClipboard('0000215000000005674198')}></ion-icon>
+                }} onClick={() => copyCBUToClipboard('0000076500000022615033')}></ion-icon>
             <ul className='transfer-list'>
-                <li className='item'>CUENTA: Martin Alejandro Mansilla</li>
-                <li className='item' ref={cbuRef}>CBU: 0000215000000005674198</li>
-                <li className='item'>ALIAS: MMANSIL878.ST</li>
-                <li className='item'>CUIT: 20-43861095-3</li>
+                <li className='item'>CUENTA:  Dario Jonathan Guevara</li>
+                <li className='item' ref={cbuRef}>CBU: 0000076500000022615033</li>
+                <li className='item'>ALIAS: dguevara59.ppay</li>
+                <li className='item'>CUIT: 20-38867289-8</li>
                 <li className='item'>
                     <button className="transfer-btn" onClick={() => {
                         Swal.fire({
