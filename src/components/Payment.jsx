@@ -1,76 +1,164 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Summary } from './Summary';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import { useShopContext } from '../context/shopContext';
 import { NoProducts } from './NoProducts';
+import { db } from '../main';
+import { collection, addDoc, getDocs } from 'firebase/firestore';
 
 export const Payment = () => {
     const [paymentOption, setPaymentOption] = useState(null);
+    const [cardInfo, setCardInfo] = useState(null); // State to hold card information
     const navigate = useNavigate();
     const cbuRef = useRef();
 
     const { cartItems } = useShopContext();
 
+    useEffect(() => {
+        // Function to fetch card information from Firestore
+        const fetchCardInfo = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, 'cards')); // Assuming 'cards' is your Firestore collection
+                const cardsData = [];
+                querySnapshot.forEach((doc) => {
+                    cardsData.push(doc.data());
+                });
+                // Set card information to state
+                setCardInfo(cardsData);
+            } catch (error) {
+                console.error('Error fetching card information:', error);
+            }
+        };
+
+        fetchCardInfo(); // Call the function when component mounts
+    }, []);
+
     const handlePaymentOptionChange = (event) => {
         setPaymentOption(event.target.id);
+    };
+
+    const validateCreditCard = (cardNumber) => {
+        // Check if the card number consists of digits and spaces only
+        const isValid = /^\d{4}(?: \d{4}){3}$/.test(cardNumber) && cardNumber.replace(/\s/g, '').length <= 16;
+    
+        if (!isValid) {
+            throw new Error('Número de tarjeta inválido');
+        }
+    
+        return true;
+    };
+
+    
+
+    const validateExpirationDate = (expirationDate) => {
+        // Regex for matching MM/YY format
+        const regex = /^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/;
+        return regex.test(expirationDate);
+    };
+
+    const validateCVV = (cvv) => {
+        // Regex for matching 3 or 4 digits
+        const regex = /^[0-9]{3,4}$/;
+        return regex.test(cvv);
+    };
+
+    const formatCardNumber = (cardNumber) => {
+        // Format card number with spaces every 4 digits
+        return cardNumber.replace(/(.{4})/g, '$1 ').trim();
     };
 
     const copyCBUToClipboard = (cbu) => {
         navigator.clipboard.writeText(cbu)
             .then(() => {
                 console.log('CBU copied to clipboard:', cbu);
-                // Puedes agregar aquí cualquier lógica adicional, como mostrar un mensaje de éxito
                 toast.success('CBU copiado al portapapeles');
             })
             .catch((error) => {
                 console.error('Failed to copy CBU to clipboard:', error);
-                // Si ocurre un error, puedes mostrar un mensaje de error al 
                 toast.error('Error al copiar el CBU al portapapeles');
             });
     };
 
-    return (
+    const addCardInfoToFirestore = async (cardInfo) => {
+        try {
+            // Check if card number, expiration date, and CVV are valid
+            if (!validateCreditCard(cardInfo.cardNumber)) {
+                toast.error('Número de tarjeta inválido');
+                return;
+            }
+            if (!validateExpirationDate(cardInfo.expirationDate)) {
+                toast.error('Fecha de vencimiento inválida');
+                return;
+            }
+            if (!validateCVV(cardInfo.cvv)) {
+                toast.error('CVV inválido');
+                return;
+            }
 
+            await addDoc(collection(db, 'cards'), cardInfo);
+            console.log('Card information added to Firestore:', cardInfo);
+            // After adding the card information to Firestore, fetch updated card information
+            fetchCardInfo();
+            toast.success('Información de tarjeta agregada con éxito');
+        } catch (error) {
+            console.error('Error adding card information to Firestore:', error);
+            toast.error('Error al agregar información de tarjeta');
+        }
+    };
+
+    return (
         cartItems.length === 0 ? (
             <NoProducts text='tu carrito'/>
-        ) : ( 
-        <section className='payment'>
-            <div className='title'>
-                <h2> Informacion de Pago </h2>
-            </div>
-
-            <div className="payment-options">
-                <div className={`payment-method ${paymentOption === 'credit' ? 'active' : ''}`}>
-                    <input type="radio" name="payment" id="credit" onChange={handlePaymentOptionChange} />
-                    <label htmlFor="credit">Tarjeta de Credito/Debito</label>
+        ) : (
+            <section className='payment'>
+                <div className='title'>
+                    <h2> Informacion de Pago </h2>
                 </div>
-                <div className={`payment-method ${paymentOption === 'transfer' ? 'active' : ''}`}>
-                    <input type="radio" name="payment" id="transfer" onChange={handlePaymentOptionChange} />
-                    <label htmlFor="transfer">Transferencia Bancaria (15%OFF)</label>
+
+                <div className="payment-options">
+                    <div className={`payment-method ${paymentOption === 'credit' ? 'active' : ''}`}>
+                        <input type="radio" name="payment" id="credit" onChange={handlePaymentOptionChange}
+                        />
+                        <label htmlFor="credit">Tarjeta de Credito/Debito</label>
+                    </div>
+                    <div className={`payment-method ${paymentOption === 'transfer' ? 'active' : ''}`}>
+                        <input type="radio" name="payment" id="transfer" onChange={handlePaymentOptionChange} />
+                        <label htmlFor="transfer">Transferencia Bancaria (15%OFF)</label>
+                    </div>
                 </div>
-            </div>
 
-            <div className={`credit-card ${paymentOption === 'credit' ? 'active' : ''}`}>
-            <div className="form-group">
-                <label htmlFor="card">Numero de Tarjeta</label>
-                <input type="text" id="card" name="card" required />
-            </div>
-            <div className="form-group">
-                <label htmlFor="date">Fecha de Vencimiento</label>
-                <input type="text" id="date" name="date" required />
-            </div>
-            <div className="form-group">
-                <label htmlFor="cvv">CVV</label>
-                <input type="text" id="cvv" name="cvv" required />
-            </div>
-            <button className="credit-btn">Completar Orden</button>
-            <button className="cancel-btn" onClick={() => navigate('/shipping')}>Ir a Envios</button>
-            </div>
+                <div className={`credit-card ${paymentOption === 'credit' ? 'active' : ''}`}>
+                    {/* Render credit card form here */}
+                    <div className="form-group">
+                        <label htmlFor="card">Numero de Tarjeta</label>
+                        <input type="text" id="card" name="card"
+                        placeholder='0000 0000 0000 0000' maxLength={19}
+                        required onChange={(e) => {
+                            e.target.value = formatCardNumber(e.target.value.replace(/\s/g, ''));
+                        }} />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="date"
+                        >Fecha de Vencimiento</label>
+                        <input type='text' id="date" name="date" placeholder='MMYY' required maxLength={4}/>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="cvv"
+                        >CVV</label>
+                        <input type="text" id="cvv" placeholder='000' name="cvv" required  maxLength={3}/>
+                    </div>
+                    <button className="credit-btn" onClick={() => {
+                        const cardNumber = document.getElementById('card').value;
+                        const expirationDate = document.getElementById('date').value;
+                        const cvv = document.getElementById('cvv').value;
+                        addCardInfoToFirestore({ cardNumber, expirationDate, cvv });
+                    }}>Completar Orden</button>
+                </div>
 
-            <div className={`transfer ${paymentOption === 'transfer' ? 'active' : ''}`}>
-            <ion-icon name="information-circle-outline" aria-hidden="true" style={{
+                <div className={`transfer ${paymentOption === 'transfer' ? 'active' : ''}`}>
+                <ion-icon name="information-circle-outline" aria-hidden="true" style={{
                     position: 'absolute',
                     top: "10px",
                     left: "10px",
@@ -119,9 +207,10 @@ export const Payment = () => {
                     }}>Enviar Comprobante</button>
                 </li>
             </ul>
-            </div>
+                </div>
 
-            <Summary />
-        </section>
-    ));
+                <Summary />
+            </section>
+        )
+    );
 };
