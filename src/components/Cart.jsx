@@ -125,7 +125,7 @@ export const Cart = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="surname" 
-                        onClick={(e) => saveSurname(e.target.value)}
+                        onChange={(e) => saveSurname(e.target.value)}
                         >Apellido</label>
                         <input type="text" id="surname" name="surname" required />
                     </div>
