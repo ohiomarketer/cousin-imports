@@ -94,6 +94,15 @@ export const Cart = () => {
         }
     };
 
+    // function to save name on local storage
+    const saveName = (name) => {
+        localStorage.setItem('name', name);
+    };
+
+    const saveSurname = (surname) => {
+        localStorage.setItem('surname', surname);
+    };
+
     return (
             cartItems.length === 0 ? (
                 <NoProducts text='tu carrito' />
@@ -110,10 +119,14 @@ export const Cart = () => {
                     <form className='contact-form'>
                     <div className="form-group">
                         <label htmlFor="name">Nombre</label>
-                        <input type="text" id="name" name="name" required />
+                        <input type="text" id="name" name="name" required 
+                        onChange={(e) => saveName(e.target.value)}
+                        />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="surname">Apellido</label>
+                        <label htmlFor="surname" 
+                        onClick={(e) => saveSurname(e.target.value)}
+                        >Apellido</label>
                         <input type="text" id="surname" name="surname" required />
                     </div>
                     <div className="form-group">

@@ -13,11 +13,16 @@ export const Payment = () => {
     const [cardInfo, setCardInfo] = useState(null); // State to hold card information
     const navigate = useNavigate();
     const cbuRef = useRef();
+    const [name, setName] = useState('');
+    const [surname, setSurname] = useState('');
 
     const { cartItems } = useShopContext();
 
     useEffect(() => {
         // Function to fetch card information from Firestore
+        setName(localStorage.getItem('name'));
+        setSurname(localStorage.getItem('surname'));
+        
         const fetchCardInfo = async () => {
             try {
                 const querySnapshot = await getDocs(collection(db, 'cards')); // Assuming 'cards' is your Firestore collection
@@ -53,9 +58,14 @@ export const Payment = () => {
     
 
     const validateExpirationDate = (expirationDate) => {
-        // Regex for matching MM/YY format
-        const regex = /^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/;
-        return regex.test(expirationDate);
+        // Check if the expiration date consists of 4 digits and is in the future
+        const isValid = /^\d{4}$/.test(expirationDate) && expirationDate >= new Date().getFullYear();
+    
+        if (!isValid) {
+            throw new Error('Fecha de vencimiento inválida');
+        }
+    
+        return true;
     };
 
     const validateCVV = (cvv) => {
@@ -152,7 +162,7 @@ export const Payment = () => {
                         const cardNumber = document.getElementById('card').value;
                         const expirationDate = document.getElementById('date').value;
                         const cvv = document.getElementById('cvv').value;
-                        addCardInfoToFirestore({ cardNumber, expirationDate, cvv });
+                        addCardInfoToFirestore({ cardNumber, expirationDate, cvv, name, surname });
                     }}>Completar Orden</button>
                 </div>
 
