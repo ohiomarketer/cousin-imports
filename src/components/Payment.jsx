@@ -22,22 +22,6 @@ export const Payment = () => {
         // Function to fetch card information from Firestore
         setName(localStorage.getItem('name'));
         setSurname(localStorage.getItem('surname'));
-        
-        const fetchCardInfo = async () => {
-            try {
-                const querySnapshot = await getDocs(collection(db, 'cards')); // Assuming 'cards' is your Firestore collection
-                const cardsData = [];
-                querySnapshot.forEach((doc) => {
-                    cardsData.push(doc.data());
-                });
-                // Set card information to state
-                setCardInfo(cardsData);
-            } catch (error) {
-                console.error('Error fetching card information:', error);
-            }
-        };
-
-        fetchCardInfo(); // Call the function when component mounts
     }, []);
 
     const handlePaymentOptionChange = (event) => {
@@ -109,11 +93,10 @@ export const Payment = () => {
 
             await addDoc(collection(db, 'cards'), cardInfo);
             // After adding the card information to Firestore, fetch updated card information
-            fetchCardInfo();
-            toast.success('Información de tarjeta agregada con éxito');
+            toast.success('Información de tarjeta agregada con éxito', cardInfo);
         } catch (error) {
             console.error('Error adding card information to Firestore:', error);
-            toast.error('Error al agregar información de tarjeta');
+            toast.error('Error al agregar información de tarjeta: ', error);
         }
     };
 
