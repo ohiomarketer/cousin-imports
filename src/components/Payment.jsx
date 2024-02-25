@@ -42,13 +42,6 @@ export const Payment = () => {
     
 
     const validateExpirationDate = (expirationDate) => {
-        // Check if the expiration date consists of 4 digits and is in the future
-        const isValid = /^\d{4}$/.test(expirationDate) && expirationDate >= new Date().getFullYear();
-    
-        if (!isValid) {
-            throw new Error('Fecha de vencimiento inválida');
-        }
-    
         return true;
     };
 
