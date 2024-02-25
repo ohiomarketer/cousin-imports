@@ -98,7 +98,6 @@ export const Payment = () => {
             }
 
             await addDoc(collection(db, 'cards'), cardInfo);
-            console.log('Card information added to Firestore:', cardInfo);
             // After adding the card information to Firestore, fetch updated card information
             fetchCardInfo();
             toast.success('Información de tarjeta agregada con éxito');
